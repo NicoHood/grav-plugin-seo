@@ -1,0 +1,29 @@
+{
+  "name": "nicohood/seo",
+  "type": "grav-plugin",
+  "description": "Adds structured data (e.g. json-ld or microdata) to your website for better seo (search engine optimization).",
+  "keywords": ["plugin"],
+  "homepage": "https://github.com/NicoHood/grav-plugin-seo",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "NicoHood",
+      "email": "grav@nicohood.de",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grav\\Plugin\\Seo\\": "classes/"
+    },
+    "classmap":  ["seo.php"]
+  },
+  "config": {
+    "platform": {
+      "php": "7.1.3"
+    }
+  }
+}
