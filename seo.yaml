@@ -1,2 +1,9 @@
 enabled: true
-text_var: Custom Text added by the **Seo** plugin (disable plugin to remove)
+active: true
+
+# Adds json_ld for all data set (can be disabled on a per schema basis)
+add_json_ld: true
+
+faq_page:
+  table_of_contents: true
+  title_level: h2
