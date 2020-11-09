@@ -93,7 +93,7 @@
       "@id": "{{ data.aggregate_rating.id }}"
     },
     {% elseif data.aggregate_rating.count %}
-    "aggregateRating": {% include 'structured-data/json-ld/aggregate-rating/aggregate-rating.json.twig' with {'data': data.aggregate_rating } %},
+    "aggregateRating": {% include 'structured-data/json-ld/aggregate_rating/aggregate_rating.json.twig' with {'data': data.aggregate_rating, 'settings': settings } %},
     {% endif %}
 
     {# NOTE: The name is placed last, as it is always used.
