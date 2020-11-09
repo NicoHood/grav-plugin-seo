@@ -8,11 +8,10 @@ author:
   name: NicoHood
   email: grav@nicohood.de
 homepage: https://github.com/NicoHood/grav-plugin-seo
-demo: http://demo.yoursite.com
-keywords: grav, plugin, etc
+keywords: grav, plugin, structured data, microdata, json-ld, seo, google, search engine optimization, rich snippets, faq
 bugs: https://github.com/NicoHood/grav-plugin-seo/issues
 docs: https://github.com/NicoHood/grav-plugin-seo/blob/develop/README.md
-license: MIT
+license: GPL3
 
 dependencies:
   - { name: grav, version: '>=1.6.0' }
@@ -30,7 +29,3 @@ form:
         0: PLUGIN_ADMIN.DISABLED
       validate:
         type: bool
-    text_var:
-      type: text
-      label: PLUGIN_SEO.TEXT_VARIABLE
-      help: PLUGIN_SEO.TEXT_VARIABLE_HELP
