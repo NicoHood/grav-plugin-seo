@@ -38,7 +38,7 @@
         ,"postalCode": "{{ data.address.postal_code }}"
       {% endif %}
       {% if data.address.country %}
-        ,"addressCountry": "{{ data.country|upper }}"
+        ,"addressCountry": "{{ data.address.country|upper }}"
       {% endif %}
     },
     {% endif %}
