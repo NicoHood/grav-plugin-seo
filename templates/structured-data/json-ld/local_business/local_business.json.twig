@@ -1,0 +1,104 @@
+{% extends "structured-data/json-ld.json.twig" %}
+
+{% set data = data|default(page.header.structured_data.local_business) %}
+{% block rawjson %}
+  {
+    "@context": "https://schema.org/",
+    "@id": "{{ data.id|default(uri.url ~ '#local-business') }}",
+
+    "@type": "LocalBusiness",
+
+    {% if data.image and data.image|count > 0 %}
+      "image": [
+        {% for image in data.image %}
+          "{{ image }}"{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ],
+    {% elseif page.media.images and page.media.images|count > 0 %}
+      "image": [
+        {% for image in page.media.images %}
+          "{{ base_url_absolute ~ image.url }}"{% if not loop.last %},{% endif %}
+        {% endfor %}
+      ],
+    {% endif %}
+
+    {% if data.address %}
+    "address": {
+      "@type": "PostalAddress"
+      {% if data.address.street %}
+        ,"streetAddress": "{{ data.address.street }}"
+      {% endif %}
+      {% if data.address.locality %}
+        ,"addressLocality": "{{ data.address.locality }}"
+      {% endif %}
+      {% if data.address.region %}
+        ,"addressRegion": "{{ data.address.region }}"
+      {% endif %}
+      {% if data.address.postal_code %}
+        ,"postalCode": "{{ data.address.postal_code }}"
+      {% endif %}
+      {% if data.address.country %}
+        ,"addressCountry": "{{ data.country|upper }}"
+      {% endif %}
+    },
+    {% endif %}
+
+    {% if data.geo.lat and data.geo.lon %}
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": {{ data.geo.lat }},
+        "longitude": {{ data.geo.lon }}
+      },
+    {% endif %}
+
+    {% if data.opening_hours %}
+    "openingHoursSpecification": [
+      {% for specification in data.opening_hours %}
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            {% for day in specification.day_of_week %}
+              "{{ day }}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+          ],
+          "opens": "{{ specification.opens|default('00:00') }}",
+          "closes": "{{ specification.closes|default('23:59') }}"
+        }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ],
+    {% endif %}
+
+    {% if data.price_range %}
+      "priceRange": "{{ data.price_range }}",
+    {% endif %}
+
+    {% if data.telephone %}
+      "telephone": "{{ data.telephone|safe_email }}",
+    {% endif %}
+
+    {% if data.url %}
+      "url": "{{ data.url }}",
+    {% endif %}
+
+    {% if data.tour_booking_page %}
+      "tourBookingPage": "{{ data.tour_booking_page }}",
+    {% endif %}
+
+    {% if data.email %}
+      "email": "{{ data.email|safe_email }}",
+    {% endif %}
+
+    {% if data.aggregate_rating.id %}
+    "aggregateRating": {
+      "@id": "{{ data.aggregate_rating.id }}"
+    },
+    {% elseif data.aggregate_rating.count %}
+    "aggregateRating": {% include 'structured-data/json-ld/aggregate-rating/aggregate-rating.json.twig' with {'data': data.aggregate_rating } %},
+    {% endif %}
+
+    {# NOTE: The name is placed last, as it is always used.
+      This way we avoid json parsing errors with
+      an additional comma at the end of the attributes before.#}
+    "name": "{{ data.name|default(page.title) }}"
+  }
+{% endblock %}
