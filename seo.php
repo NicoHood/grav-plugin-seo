@@ -4,6 +4,7 @@ namespace Grav\Plugin;
 use Composer\Autoload\ClassLoader;
 use Grav\Common\Plugin;
 use Grav\Common\Data\Data;
+use RocketTheme\Toolbox\Event\Event;
 
 /**
  * Class SeoPlugin
@@ -46,8 +47,12 @@ class SeoPlugin extends Plugin
      */
     public function onPluginsInitialized()
     {
-        // Don't proceed if we are in the admin plugin
+        // If in an Admin page.
         if ($this->isAdmin()) {
+            $this->enable([
+                'onGetPageBlueprints' => ['onGetPageBlueprints', 0],
+                'onGetPageTemplates' => ['onGetPageTemplates', 0]
+            ]);
             return;
         }
 
@@ -112,5 +117,23 @@ class SeoPlugin extends Plugin
     public function onTwigTemplatePaths()
     {
         $this->grav['twig']->twig_paths[] = __DIR__ . '/templates';
+    }
+
+    /**
+     * Add blueprint directory.
+     */
+    public function onGetPageBlueprints(Event $event): void
+    {
+        $types = $event->types;
+        $types->scanBlueprints('plugin://' . $this->name . '/blueprints');
+    }
+
+    /**
+     * Add templates directory.
+     */
+    public function onGetPageTemplates(Event $event): void
+    {
+        $types = $event->types;
+        $types->scanTemplates('plugin://' . $this->name . '/templates');
     }
 }
