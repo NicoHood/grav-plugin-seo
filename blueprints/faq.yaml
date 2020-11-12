@@ -1,0 +1,85 @@
+title: Faq Page
+extends@:
+    type: default
+    context: blueprints://pages
+
+form:
+  fields:
+    tabs:
+      type: tabs
+      active: 1
+
+      fields:
+        content:
+
+          fields:
+            section.faq_content:
+              type: section
+              title: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS
+              underline: true
+              fields:
+
+                # TODO include this from another blueprint
+                header.structured_data.faq_page.entries:
+                  name: features
+                  type: list
+                  label: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS_ANSWERS
+                  controls: both
+                  style: vertical
+                  min: 1
+
+                  fields:
+                    .question:
+                      type: text
+                      label: PLUGIN_SEO.QUESTION
+                      validate:
+                        required: true
+                    .answer:
+                      label: PLUGIN_SEO.ANSWER
+                      type: markdown
+                      validate:
+                        type: textarea
+                        required: true
+
+                header.seo.faq_page.footer:
+                  label: PLUGIN_SEO.FOOTER
+                  help: PLUGIN_SEO.FOOTER_HELP
+                  type: markdown
+                  validate:
+                    type: textarea
+                    required: false
+
+        options:
+          fields:
+            section.faq:
+              type: section
+              title: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS
+              underline: true
+              fields:
+
+                header.seo.faq_page.table_of_contents:
+                  type: toggle
+                  toggleable: true
+                  label: PLUGIN_SEO.TABLE_OF_CONTENTS
+                  help: PLUGIN_SEO.TABLE_OF_CONTENTS_HELP
+                  highlight: 1
+                  size: medium
+                  options:
+                    1: PLUGIN_ADMIN.YES
+                    0: PLUGIN_ADMIN.NO
+                  validate:
+                    type: bool
+
+                header.seo.faq_page.table_of_contents_title_level:
+                  type: text
+                  label: PLUGIN_SEO.TABLE_OF_CONTENTS_TITLE_LEVEL
+                  help: PLUGIN_SEO.TABLE_OF_CONTENTS_TITLE_LEVEL_HELP
+                  placeholder: 'h2'
+                  toggleable: true
+
+                header.seo.faq_page.title_level:
+                  type: text
+                  label: PLUGIN_SEO.TITLE_LEVEL
+                  help: PLUGIN_SEO.TITLE_LEVEL_HELP
+                  placeholder: 'h3'
+                  toggleable: true

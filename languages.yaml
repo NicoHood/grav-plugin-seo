@@ -5,7 +5,13 @@ en:
     FREQUENTLY_ASKED_QUESTIONS: 'Frequently Asked Questions'
     FREQUENTLY_ASKED_QUESTIONS_ANSWERS: 'Frequently asked Questions and Answers'
     FOOTER: 'Footer'
+    FOOTER_HELP: 'Additional text to display below questions.'
     TABLE_OF_CONTENTS: 'Table of Contents'
+    TABLE_OF_CONTENTS_HELP: 'Add a table of content before all questions.'
+    TABLE_OF_CONTENTS_TITLE_LEVEL: 'Table of Contents Title Level'
+    TABLE_OF_CONTENTS_TITLE_LEVEL_HELP: 'Specify the level by adding an html tag like h2, h3, etc.'
+    TITLE_LEVEL: 'Title Level'
+    TITLE_LEVEL_HELP: Specify the title level of the questions by adding an html tag like h2, h3, etc.'
 de:
   PLUGIN_SEO:
     QUESTION: 'Frage'
