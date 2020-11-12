@@ -1,0 +1,5 @@
+{% set entries = entries|defined(page.header.structured_data.faq_page.entries) %}
+
+{% for entry in entries %}
+  {% include 'partials/faq_page/entry.html.twig' %}
+{% endfor %}

@@ -1,0 +1,14 @@
+{% set table_of_contents_title_level = page.header.seo.faq_page.table_of_contents_title_level|defined(config.plugins.seo.faq_page.table_of_contents_title_level|defined('h2')) %}
+
+{% if page.header.structured_data.faq_page.entries|length > 0 %}
+  <nav role="doc-toc" class="faq-toc">
+    <{{ table_of_contents_title_level }}>{{ 'PLUGIN_SEO.TABLE_OF_CONTENTS'|t }}</{{ table_of_contents_title_level }}>
+    <ul>
+    {% for entry in page.header.structured_data.faq_page.entries %}
+      <li><a href="#{{ entry.question|striptags|lower|replace(' ', '-') }}">
+        {{ entry.question }}
+      </a></li>
+    {% endfor %}
+    </ul>
+  </nav>
+{% endif %}

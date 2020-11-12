@@ -1,0 +1,16 @@
+{% extends 'partials/base.html.twig' %}
+{% set table_of_contents = page.header.seo.faq_page.table_of_contents|defined(config.plugins.seo.faq_page.table_of_contents|defined(true)) %}
+
+{% block content %}
+
+{{ page.content|raw }}
+
+{% if table_of_contents %}
+  {% include 'partials/faq_page/table-of-contents.html.twig' %}
+{% endif %}
+
+{% include 'partials/faq_page/entries.html.twig' %}
+
+{{ page.header.seo.faq_page.footer|markdown }}
+
+{% endblock %}

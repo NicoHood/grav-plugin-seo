@@ -1,0 +1,6 @@
+{% set title_level = title_level|defined(page.header.seo.faq_page.title_level|defined(config.plugins.seo.faq_page.title_level|defined('h2'))) %}
+
+<section class="faq-entry">
+  <{{ title_level|lower }} id="{{ entry.question|striptags|lower|replace(' ', '-') }}">{{ entry.question }}</{{ title_level|lower }}>
+  {{ entry.answer|markdown }}
+</section>
