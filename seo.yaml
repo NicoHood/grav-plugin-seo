@@ -6,4 +6,12 @@ add_json_ld: true
 
 faq_page:
   table_of_contents: true
-  title_level: h2
+  table_of_contents_title_level: h2
+  title_level: h3
+  # add_json_ld: false
+
+aggregate_rating:
+  # add_json_ld: false
+
+local_business:
+  # add_json_ld: false
