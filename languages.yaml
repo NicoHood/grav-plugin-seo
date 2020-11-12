@@ -1,2 +1,16 @@
 en:
   PLUGIN_SEO:
+    QUESTION: 'Question'
+    ANSWER: 'Answer'
+    FREQUENTLY_ASKED_QUESTIONS: 'Frequently Asked Questions'
+    FREQUENTLY_ASKED_QUESTIONS_ANSWERS: 'Frequently asked Questions and Answers'
+    FOOTER: 'Footer'
+    TABLE_OF_CONTENTS: 'Table of Contents'
+de:
+  PLUGIN_SEO:
+    QUESTION: 'Frage'
+    ANSWER: 'Antwort'
+    FREQUENTLY_ASKED_QUESTIONS: 'Häufig gestellte Fragen'
+    FREQUENTLY_ASKED_QUESTIONS_ANSWERS: 'Häufig gestellte Fragen & Antworten'
+    FOOTER: 'Footer'
+    TABLE_OF_CONTENTS: 'Inhaltsverzeichnis'
