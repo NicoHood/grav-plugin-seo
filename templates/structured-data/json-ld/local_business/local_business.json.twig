@@ -4,20 +4,20 @@
 {% block rawjson %}
   {
     "@context": "https://schema.org/",
-    "@id": "{{ data.id|default(uri.url ~ '#local-business') }}",
+    "@id": "{{ data.id|default(uri.url ~ '#local-business')|escape('js') }}",
 
     "@type": "LocalBusiness",
 
     {% if data.image and data.image|count > 0 %}
       "image": [
         {% for image in data.image %}
-          "{{ image }}"{% if not loop.last %},{% endif %}
+          "{{ image|escape('js') }}"{% if not loop.last %},{% endif %}
         {% endfor %}
       ],
     {% elseif page.media.images and page.media.images|count > 0 %}
       "image": [
         {% for image in page.media.images %}
-          "{{ base_url_absolute ~ image.url }}"{% if not loop.last %},{% endif %}
+          "{{ (base_url_absolute ~ image.url)|escape('js') }}"{% if not loop.last %},{% endif %}
         {% endfor %}
       ],
     {% endif %}
@@ -26,19 +26,19 @@
     "address": {
       "@type": "PostalAddress"
       {% if data.address.street %}
-        ,"streetAddress": "{{ data.address.street }}"
+        ,"streetAddress": "{{ data.address.street|escape('js') }}"
       {% endif %}
       {% if data.address.locality %}
-        ,"addressLocality": "{{ data.address.locality }}"
+        ,"addressLocality": "{{ data.address.locality|escape('js') }}"
       {% endif %}
       {% if data.address.region %}
-        ,"addressRegion": "{{ data.address.region }}"
+        ,"addressRegion": "{{ data.address.region|escape('js') }}"
       {% endif %}
       {% if data.address.postal_code %}
-        ,"postalCode": "{{ data.address.postal_code }}"
+        ,"postalCode": "{{ data.address.postal_code|escape('js') }}"
       {% endif %}
       {% if data.address.country %}
-        ,"addressCountry": "{{ data.address.country|upper }}"
+        ,"addressCountry": "{{ data.address.country|upper|escape('js') }}"
       {% endif %}
     },
     {% endif %}
@@ -46,8 +46,8 @@
     {% if data.geo.lat and data.geo.lon %}
     "geo": {
         "@type": "GeoCoordinates",
-        "latitude": {{ data.geo.lat }},
-        "longitude": {{ data.geo.lon }}
+        "latitude": {{ data.geo.lat|escape('js') }},
+        "longitude": {{ data.geo.lon|escape('js') }}
       },
     {% endif %}
 
@@ -58,39 +58,39 @@
           "@type": "OpeningHoursSpecification",
           "dayOfWeek": [
             {% for day in specification.day_of_week %}
-              "{{ day }}"{% if not loop.last %},{% endif %}
+              "{{ day|escape('js') }}"{% if not loop.last %},{% endif %}
             {% endfor %}
           ],
-          "opens": "{{ specification.opens|default('00:00') }}",
-          "closes": "{{ specification.closes|default('23:59') }}"
+          "opens": "{{ specification.opens|default('00:00')|escape('js') }}",
+          "closes": "{{ specification.closes|default('23:59')|escape('js') }}"
         }{% if not loop.last %},{% endif %}
       {% endfor %}
     ],
     {% endif %}
 
     {% if data.price_range %}
-      "priceRange": "{{ data.price_range }}",
+      "priceRange": "{{ data.price_range|escape('js') }}",
     {% endif %}
 
     {% if data.telephone %}
-      "telephone": "{{ data.telephone|safe_email }}",
+      "telephone": "{{ data.telephone|safe_email|escape('js') }}",
     {% endif %}
 
     {% if data.url %}
-      "url": "{{ data.url }}",
+      "url": "{{ data.url|escape('js') }}",
     {% endif %}
 
     {% if data.tour_booking_page %}
-      "tourBookingPage": "{{ data.tour_booking_page }}",
+      "tourBookingPage": "{{ data.tour_booking_page|escape('js') }}",
     {% endif %}
 
     {% if data.email %}
-      "email": "{{ data.email|safe_email }}",
+      "email": "{{ data.email|safe_email|escape('js') }}",
     {% endif %}
 
     {% if data.aggregate_rating.id %}
     "aggregateRating": {
-      "@id": "{{ data.aggregate_rating.id }}"
+      "@id": "{{ data.aggregate_rating.id|escape('js') }}"
     },
     {% elseif data.aggregate_rating.count %}
     "aggregateRating": {% include 'structured-data/json-ld/aggregate_rating/aggregate_rating.json.twig' with {'data': data.aggregate_rating, 'settings': settings } %},
@@ -99,6 +99,6 @@
     {# NOTE: The name is placed last, as it is always used.
       This way we avoid json parsing errors with
       an additional comma at the end of the attributes before.#}
-    "name": "{{ data.name|default(page.title) }}"
+    "name": "{{ data.name|default(page.title)|escape('js') }}"
   }
 {% endblock %}

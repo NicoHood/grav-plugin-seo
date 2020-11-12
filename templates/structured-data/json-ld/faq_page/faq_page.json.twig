@@ -5,14 +5,20 @@
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+
+  {% if data.name %}
+    "name": "{{ data.name|escape('js') }}",
+  {% endif %}
+
   "mainEntity": [
     {% for entry in data.entries %}
       {
-      "@type": "Question",
-      "name": "{{ entry.question }}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{ entry.answer|markdown(false) }}"
+        "@type": "Question",
+        "name": "{{ entry.question|escape('js') }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ entry.answer|markdown|escape('js') }}"
+        }
       }
       {% if not loop.last %},{% endif %}
     {% endfor %}
