@@ -18,6 +18,11 @@ form:
               title: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS
               underline: true
               fields:
+                header.structured_data.faq_page.name:
+                  type: text
+                  label: PLUGIN_SEO.NAME
+                  help: PLUGIN_SEO.NAME_HELP
+                  toggleable: true
 
                 # TODO include this from another blueprint
                 header.structured_data.faq_page.entries:

@@ -12,6 +12,8 @@ en:
     TABLE_OF_CONTENTS_TITLE_LEVEL_HELP: 'Specify the level by adding an html tag like h2, h3, etc.'
     TITLE_LEVEL: 'Title Level'
     TITLE_LEVEL_HELP: Specify the title level of the questions by adding an html tag like h2, h3, etc.'
+    NAME: 'Name'
+    NAME_HELP: 'Name of the FAQ. Defaults to the page title if not specified or empty.'
 de:
   PLUGIN_SEO:
     QUESTION: 'Frage'
