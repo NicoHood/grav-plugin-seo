@@ -1,0 +1,18 @@
+form:
+  fields:
+    section.local_business.options:
+      type: section
+      title: Local Business Options
+      underline: true
+      fields:
+        header.seo.local_business.add_json_ld:
+          type: toggle
+          label: Add Json-LD
+          help: 'Adds Json-LD to page header via <script> tags. Overrides global plugin setting.'
+          toggleable: true
+          highlight: true
+          options:
+            1: PLUGIN_ADMIN.YES
+            0: PLUGIN_ADMIN.NO
+          validate:
+            type: bool

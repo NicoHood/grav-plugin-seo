@@ -1,0 +1,43 @@
+form:
+  fields:
+    section.faq_page.entries:
+      type: section
+      title: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS
+      underline: true
+      fields:
+        header.structured_data.faq_page.name:
+          type: text
+          label: PLUGIN_SEO.NAME
+          help: PLUGIN_SEO.NAME_HELP
+          toggleable: true
+
+        # TODO include this from another blueprint
+        header.structured_data.faq_page.entries:
+          name: features
+          type: list
+          label: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS_ANSWERS
+          controls: both
+          style: vertical
+          toggleable: true
+          min: 1
+
+          fields:
+            .question:
+              type: text
+              label: PLUGIN_SEO.QUESTION
+              validate:
+                required: true
+            .answer:
+              label: PLUGIN_SEO.ANSWER
+              type: markdown
+              validate:
+                type: textarea
+                required: true
+
+        header.seo.faq_page.footer:
+          label: PLUGIN_SEO.FOOTER
+          help: PLUGIN_SEO.FOOTER_HELP
+          type: markdown
+          validate:
+            type: textarea
+            required: false

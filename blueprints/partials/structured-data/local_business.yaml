@@ -1,0 +1,106 @@
+form:
+  fields:
+    section.local_business.general:
+      type: section
+      title: General Information
+      underline: true
+      fields:
+        header.structured_data.local_business.name:
+          type: text
+          label: Name
+          help: 'If not specified will be replaced by page title.'
+          placeholder: 'Pizza Restaurant'
+        header.structured_data.local_business.price_range:
+          type: text
+          label: Price Range
+          help: 'E.g. $10-15 or $$$'
+          placeholder: '$10-15'
+        header.structured_data.local_business.opening_hours:
+          type: list
+          label: Opening Hours
+          style: vertical
+          fields:
+            .day_of_week:
+              type: select
+              size: long
+              classes: fancy
+              label: 'Days of Week'
+              multiple: true
+              validate:
+                  type: array
+              options:
+                  Monday: 'Monday'
+                  Tuesday: 'Tuesday'
+                  Wednesday: 'Wednesday'
+                  Thursday: 'Thursday'
+                  Friday: 'Friday'
+            .opens:
+              type: text
+              label: Opens
+              help: 'Use 00:00 and 23:59 if open 24/7.'
+              placeholder: '09:00'
+              # TODO add validation regex
+            .closes:
+              type: text
+              label: Closes
+              help: 'Use 00:00 and 23:59 if open 24/7.'
+              placeholder: '18:00'
+              # TODO add validation regex
+
+    section.local_business.contact:
+      type: section
+      title: Contact
+      underline: true
+      fields:
+        header.structured_data.local_business.email:
+          type: text
+          label: E-mail
+          validate:
+              type: email
+        header.structured_data.local_business.url:
+          type: text
+          label: Website Url
+          help: 'It is best to start with https://'
+          placeholder: 'https://getgrav.org'
+          validate:
+              type: url
+        header.structured_data.local_business.telephone:
+          type: tel
+          label: Telephone
+          help: 'It is best to use a country code. e.g. +49 ... (not 00!)'
+          placeholder: '+49 1234 567890'
+
+    section.local_business.address:
+      type: section
+      title: Address
+      underline: true
+      fields:
+        header.structured_data.local_business.address.street:
+          type: text
+          label: Street
+          placeholder: 'Main Street 404'
+        header.structured_data.local_business.address.postal_code:
+          type: text
+          label: Postal Code
+          default: '12345'
+        header.structured_data.local_business.address.locality:
+          type: text
+          label: Locality
+          placeholder: Berlin
+        header.structured_data.local_business.address.region:
+          type: text
+          label: Region
+          placeholder: Nordrhein Westfalen
+        header.structured_data.local_business.address.country:
+          type: text
+          label: Country
+          help: Country code e.g. US, FR, DE
+          placeholder: DE
+        header.structured_data.local_business.geo.lat:
+          type: text
+          label: Latitude
+          placeholder: 52.520008
+        header.structured_data.local_business.geo.lon:
+          type: text
+          label: Longitude
+          placeholder: 13.404954

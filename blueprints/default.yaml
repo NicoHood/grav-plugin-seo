@@ -1,0 +1,40 @@
+extends@: parent@
+
+form:
+  fields:
+    tabs:
+      fields:
+        seo:
+          type: tab
+          title: Seo
+
+          fields:
+            tabs:
+              type: tabs
+              active: 1
+              title: Structured Data
+
+              fields:
+                options:
+                  type: tab
+                  title: Options
+                  import@1:
+                    type: 'partials/seo/local_business'
+                    context: blueprints://
+                  import@2:
+                    type: 'partials/seo/faq_page'
+                    context: blueprints://
+
+                local_business:
+                  type: tab
+                  title: Local Business
+                  import@:
+                    type: 'partials/structured-data/local_business'
+                    context: blueprints://
+
+                faq_page:
+                  type: tab
+                  title: FAQ
+                  import@:
+                    type: 'partials/structured-data/faq_page'
+                    context: blueprints://

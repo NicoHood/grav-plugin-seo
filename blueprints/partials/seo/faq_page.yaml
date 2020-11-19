@@ -1,0 +1,46 @@
+form:
+  fields:
+    section.faq_page.options:
+      type: section
+      title: PLUGIN_SEO.FREQUENTLY_ASKED_QUESTIONS
+      underline: true
+      fields:
+
+        header.seo.faq_page.add_json_ld:
+          type: toggle
+          label: Add Json-LD
+          help: 'Adds Json-LD to page header via <script> tags. Overrides global plugin setting.'
+          toggleable: true
+          highlight: true
+          options:
+            1: PLUGIN_ADMIN.YES
+            0: PLUGIN_ADMIN.NO
+          validate:
+            type: bool
+
+        header.seo.faq_page.table_of_contents:
+          type: toggle
+          toggleable: true
+          label: PLUGIN_SEO.TABLE_OF_CONTENTS
+          help: PLUGIN_SEO.TABLE_OF_CONTENTS_HELP
+          highlight: true
+          size: medium
+          options:
+            1: PLUGIN_ADMIN.YES
+            0: PLUGIN_ADMIN.NO
+          validate:
+            type: bool
+
+        header.seo.faq_page.table_of_contents_title_level:
+          type: text
+          label: PLUGIN_SEO.TABLE_OF_CONTENTS_TITLE_LEVEL
+          help: PLUGIN_SEO.TABLE_OF_CONTENTS_TITLE_LEVEL_HELP
+          placeholder: 'h2'
+          toggleable: true
+
+        header.seo.faq_page.title_level:
+          type: text
+          label: PLUGIN_SEO.TITLE_LEVEL
+          help: PLUGIN_SEO.TITLE_LEVEL_HELP
+          placeholder: 'h3'
+          toggleable: true
