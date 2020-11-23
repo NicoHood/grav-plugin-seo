@@ -82,7 +82,7 @@ form:
         header.structured_data.local_business.address.postal_code:
           type: text
           label: Postal Code
-          default: '12345'
+          placeholder: '12345'
         header.structured_data.local_business.address.locality:
           type: text
           label: Locality
