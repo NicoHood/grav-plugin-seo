@@ -2,23 +2,25 @@
 
 {% set data = data|default(page.header.structured_data.faq_page) %}
 {% block rawjson %}
+{% autoescape 'js' %}
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "name": "{{ data.name|default(page.title)|escape('js') }}",
+  "name": "{{ data.name|default(page.title) }}",
 
   "mainEntity": [
     {% for entry in data.entries %}
       {
         "@type": "Question",
-        "name": "{{ entry.question|escape('js') }}",
+        "name": "{{ entry.question }}",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "{{ entry.answer|markdown|escape('js') }}"
+          "text": "{{ entry.answer|markdown }}"
         }
       }
       {% if not loop.last %},{% endif %}
     {% endfor %}
   ]
 }
+{% endautoescape %}
 {% endblock %}

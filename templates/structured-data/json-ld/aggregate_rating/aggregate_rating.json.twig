@@ -2,14 +2,16 @@
 
 {% set data = data|default(page.header.structured_data.aggregate_rating) %}
 {% block rawjson %}
+{% autoescape 'js' %}
   {
     "@context": "https://schema.org/",
-    "@id": "{{ data.id|default(uri.url ~ '#aggregate-rating')|escape('js') }}",
+    "@id": "{{ data.id|default(uri.url ~ '#aggregate-rating') }}",
 
     "@type": "AggregateRating",
-    "ratingValue": "{{ data.value|escape('js') }}",
-    "ratingCount": "{{ data.count|escape('js') }}",
-    "bestRating": {{ data.best|default(5)|escape('js') }},
-    "worstRating": {{ data.worst|default(1)|escape('js') }}
+    "ratingValue": "{{ data.value }}",
+    "ratingCount": "{{ data.count }}",
+    "bestRating": {{ data.best|default(5) }},
+    "worstRating": {{ data.worst|default(1) }}
   }
+{% endautoescape %}
 {% endblock %}
