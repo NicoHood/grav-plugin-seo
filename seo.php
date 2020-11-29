@@ -59,8 +59,66 @@ class SeoPlugin extends Plugin
         // Enable the main events we are interested in
         $this->enable([
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
-            'onTwigSiteVariables' => ['onTwigSiteVariables', 0]
+            'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
+            'onPageProcessed' => ['onPageProcessed', 1000],
         ]);
+    }
+
+    /**
+     * After a page is parsed and processed.
+     * This is fired for every page in the Grav system.
+     * Performance is not a problem because this event will not run on a cached page,
+     * only when the cache is cleared or a cache-clearing event occurs.
+     */
+    public function onPageProcessed(Event $event)
+    {
+        $page = $event['page'];
+        $config = $this->mergeConfig($page);
+
+        // Check if seo plugin should be activated for this page
+        if (!$config->get('active', true)) {
+            return;
+        }
+
+        $header = new Data((array)$page->header());
+        $structured_data = $header->get('structured_data', []);
+
+        foreach ($structured_data as $key => $data) {
+            // The settings can be defined in the plugin or on a per-page basis.
+            $settings = new Data($config->get($key, []));
+            $data = new Data($data);
+
+            if ($key === 'local_business') {
+                // Dynamically add geocoordinates with geocoding plugin, if available
+                if ($settings->get('resolve_geolocation', false) &&
+                    $this->config->get('plugins.geocoding.enabled') &&
+                    $data->get('address.street') &&
+                    $data->get('address.postal_code') &&
+                    $data->get('address.locality') &&
+                    $data->get('address.region') &&
+                    $data->get('address.country') &&
+                    $data->get('geo') === null)
+                {
+                    // Get geocoordinates using geocoding plugin
+                    $geo = $this->grav['geocoding']->getLocation(
+                      $data->get('address.street') . ', ' .
+                      $data->get('address.postal_code') . ', ' .
+                      $data->get('address.locality') . ', ' .
+                      $data->get('address.region'),
+                      $data->get('address.country'));
+
+                    // Set coordinates
+                    $data->set('geo.lat', $geo->lat);
+                    $data->set('geo.lon', $geo->lon);
+                }
+            }
+
+            // Add changes to header
+            $header->set('structured_data.' . $key, $data->toArray());
+        }
+
+        // Save header to page
+        $page->header($header->toArray());
     }
 
     /**
@@ -71,9 +129,8 @@ class SeoPlugin extends Plugin
         $locator = $this->grav['locator'];
         $page = $this->grav['page'];
         $config = $this->mergeConfig($page);
-        $header = new Data((array)$page->header());
-        $structured_data = $header->get('structured_data', []);
 
+        // Check if seo plugin should be activated for this page
         if (!$config->get('active', true)) {
             return;
         }
@@ -85,6 +142,9 @@ class SeoPlugin extends Plugin
         // General default setting
         $add_json_ld = $config->get('add_json_ld', true);
 
+        $header = new Data((array)$page->header());
+        $structured_data = $header->get('structured_data', []);
+
         foreach ($structured_data as $key => $data) {
             // Check if a template exists for the given data
             $template = 'structured-data/json-ld/' . $key . '/' . $key . '.json.twig';
@@ -94,32 +154,6 @@ class SeoPlugin extends Plugin
 
             // The settings can be defined in the plugin or on a per-page basis.
             $settings = new Data($config->get($key, []));
-            $data = new Data($data);
-
-            if ($key === 'local_business') {
-              // Dynamically add geocoordinates with geocoding plugin, if available
-              if ($settings->get('resolve_geolocation', false) &&
-                  $this->config->get('plugins.geocoding.enabled') &&
-                  $data->get('address.street') &&
-                  $data->get('address.postal_code') &&
-                  $data->get('address.locality') &&
-                  $data->get('address.region') &&
-                  $data->get('address.country') &&
-                  $data->get('geo') === null)
-              {
-                // Get geocoordinates using geocoding plugin
-                $geo = $this->grav['geocoding']->getLocation(
-                  $data->get('address.street') . ', ' .
-                  $data->get('address.postal_code') . ', ' .
-                  $data->get('address.locality') . ', ' .
-                  $data->get('address.region'),
-                  $data->get('address.country'));
-
-                // Set coordinates
-                $data->set('geo.lat', $geo->lat);
-                $data->set('geo.lon', $geo->lon);
-              }
-            }
 
             // Check if json_ld should be added to page
             if ($settings->get('add_json_ld', $add_json_ld)) {
