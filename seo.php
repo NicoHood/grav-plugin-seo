@@ -94,6 +94,32 @@ class SeoPlugin extends Plugin
 
             // The settings can be defined in the plugin or on a per-page basis.
             $settings = new Data($config->get($key, []));
+            $data = new Data($data);
+
+            if ($key === 'local_business') {
+              // Dynamically add geocoordinates with geocoding plugin, if available
+              if ($settings->get('resolve_geolocation', false) &&
+                  $this->config->get('plugins.geocoding.enabled') &&
+                  $data->get('address.street') &&
+                  $data->get('address.postal_code') &&
+                  $data->get('address.locality') &&
+                  $data->get('address.region') &&
+                  $data->get('address.country') &&
+                  $data->get('geo') === null)
+              {
+                // Get geocoordinates using geocoding plugin
+                $geo = $this->grav['geocoding']->getLocation(
+                  $data->get('address.street') . ', ' .
+                  $data->get('address.postal_code') . ', ' .
+                  $data->get('address.locality') . ', ' .
+                  $data->get('address.region'),
+                  $data->get('address.country'));
+
+                // Set coordinates
+                $data->set('geo.lat', $geo->lat);
+                $data->set('geo.lon', $geo->lon);
+              }
+            }
 
             // Check if json_ld should be added to page
             if ($settings->get('add_json_ld', $add_json_ld)) {

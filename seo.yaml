@@ -15,3 +15,6 @@ aggregate_rating:
 
 local_business:
   # add_json_ld: false
+
+  # Only works if geocoding plugin is installed
+  resolve_geolocation: false
