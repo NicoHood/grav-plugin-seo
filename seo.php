@@ -112,6 +112,21 @@ class SeoPlugin extends Plugin
                     $data->set('geo.lon', $geo->lon);
                 }
             }
+            else if ($key === 'place') {
+                // Dynamically add geocoordinates with geocoding plugin, if available
+                if ($settings->get('resolve_geolocation', false) &&
+                    $this->config->get('plugins.geocoding.enabled') &&
+                    $data->get('name') &&
+                    $data->get('geo') === null)
+                {
+                    // Get geocoordinates using geocoding plugin
+                    $geo = $this->grav['geocoding']->getLocation($data->get('name'));
+
+                    // Set coordinates
+                    $data->set('geo.lat', $geo->lat);
+                    $data->set('geo.lon', $geo->lon);
+                }
+            }
 
             // Add changes to header
             $header->set('structured_data.' . $key, $data->toArray());

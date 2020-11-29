@@ -18,3 +18,9 @@ local_business:
 
   # Only works if geocoding plugin is installed
   resolve_geolocation: false
+
+place:
+  # add_json_ld: false
+
+  # Only works if geocoding plugin is installed
+  resolve_geolocation: false
