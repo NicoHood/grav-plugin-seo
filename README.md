@@ -23,7 +23,7 @@ To install the plugin manually, download the zip-version of this repository and 
 You should now have all the plugin files under
 
     /your/site/grav/user/plugins/seo
-	
+
 > NOTE: This plugin is a modular component for Grav which may require other plugins to operate, please see its [blueprints.yaml-file on GitHub](https://github.com/nico-hood/grav-plugin-seo/blob/master/blueprints.yaml).
 
 ### Admin Plugin
@@ -52,5 +52,5 @@ Note that if you use the Admin Plugin, a file with your configuration named seo.
 
 ## To Do
 
-- [ ] Future plans, if any
+- [ ] Make blueprints translatable
 
