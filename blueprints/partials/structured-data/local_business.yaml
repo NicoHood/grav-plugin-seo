@@ -100,9 +100,9 @@ form:
           placeholder: DE
         header.structured_data.local_business.geo.lat:
           type: text
-          label: Latitude
+          label: 'Latitude (Autofilled, if enabled)'
           placeholder: 52.520008
         header.structured_data.local_business.geo.lon:
           type: text
-          label: Longitude
+          label: 'Longitude (Autofilled, if enabled)'
           placeholder: 13.404954

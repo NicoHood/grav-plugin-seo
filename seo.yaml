@@ -4,6 +4,10 @@ active: true
 # Adds json_ld for all data set (can be disabled on a per schema basis)
 add_json_ld: true
 
+# Automatically save geolocation permanent into page header based on address.
+# Only works if geocoding plugin is installed.
+resolve_geolocation: false
+
 faq_page:
   table_of_contents: true
   table_of_contents_title_level: h2
@@ -17,10 +21,10 @@ local_business:
   # add_json_ld: false
 
   # Only works if geocoding plugin is installed
-  resolve_geolocation: false
+  # resolve_geolocation: false
 
 place:
   # add_json_ld: false
 
   # Only works if geocoding plugin is installed
-  resolve_geolocation: false
+  # resolve_geolocation: false

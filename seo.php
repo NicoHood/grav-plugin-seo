@@ -47,11 +47,13 @@ class SeoPlugin extends Plugin
      */
     public function onPluginsInitialized()
     {
+
         // If in an Admin page.
         if ($this->isAdmin()) {
             $this->enable([
                 'onGetPageBlueprints' => ['onGetPageBlueprints', 0],
-                'onGetPageTemplates' => ['onGetPageTemplates', 0]
+                'onGetPageTemplates' => ['onGetPageTemplates', 0],
+                'onAdminSave' => ['onAdminSave', 0],
             ]);
             return;
         }
@@ -60,19 +62,15 @@ class SeoPlugin extends Plugin
         $this->enable([
             'onTwigTemplatePaths' => ['onTwigTemplatePaths', 0],
             'onTwigSiteVariables' => ['onTwigSiteVariables', 0],
-            'onPageProcessed' => ['onPageProcessed', 1000],
         ]);
     }
 
     /**
-     * After a page is parsed and processed.
-     * This is fired for every page in the Grav system.
-     * Performance is not a problem because this event will not run on a cached page,
-     * only when the cache is cleared or a cache-clearing event occurs.
+     *  Manipulate the page object data before it is saved to the filesystem.
      */
-    public function onPageProcessed(Event $event)
+    public function onAdminSave(Event $event)
     {
-        $page = $event['page'];
+        $page = $event['object'];
         $config = $this->mergeConfig($page);
 
         // Check if seo plugin should be activated for this page
@@ -86,46 +84,21 @@ class SeoPlugin extends Plugin
         foreach ($structured_data as $key => $data) {
             // The settings can be defined in the plugin or on a per-page basis.
             $settings = new Data($config->get($key, []));
+
+            // Dynamically add geocoordinates with geocoding plugin, if available
+            if (!$settings->get('resolve_geolocation', false)) {
+                return;
+            }
+
             $data = new Data($data);
 
-            if ($key === 'local_business') {
-                // Dynamically add geocoordinates with geocoding plugin, if available
-                if ($settings->get('resolve_geolocation', false) &&
-                    $this->config->get('plugins.geocoding.enabled') &&
-                    $data->get('address.street') &&
-                    $data->get('address.postal_code') &&
-                    $data->get('address.locality') &&
-                    $data->get('address.region') &&
-                    $data->get('address.country') &&
-                    $data->get('geo') === null)
-                {
-                    // Get geocoordinates using geocoding plugin
-                    $geo = $this->grav['geocoding']->getLocation(
-                      $data->get('address.street') . ', ' .
-                      $data->get('address.postal_code') . ', ' .
-                      $data->get('address.locality') . ', ' .
-                      $data->get('address.region'),
-                      $data->get('address.country'));
-
-                    // Set coordinates
-                    $data->set('geo.lat', $geo->lat);
-                    $data->set('geo.lon', $geo->lon);
-                }
-            }
-            else if ($key === 'place') {
-                // Dynamically add geocoordinates with geocoding plugin, if available
-                if ($settings->get('resolve_geolocation', false) &&
-                    $this->config->get('plugins.geocoding.enabled') &&
-                    $data->get('name') &&
-                    $data->get('geo') === null)
-                {
-                    // Get geocoordinates using geocoding plugin
-                    $geo = $this->grav['geocoding']->getLocation($data->get('name'));
-
-                    // Set coordinates
-                    $data->set('geo.lat', $geo->lat);
-                    $data->set('geo.lon', $geo->lon);
-                }
+            switch ($key) {
+                case 'local_business':
+                    $this->resolveLocalBusinessGeoLocation($data);
+                    break;
+                case 'place':
+                    $this->resolvePlaceGeoLocation($data);
+                    break;
             }
 
             // Add changes to header
@@ -134,6 +107,59 @@ class SeoPlugin extends Plugin
 
         // Save header to page
         $page->header($header->toArray());
+    }
+
+    private function resolveLocalBusinessGeoLocation(Data $data)
+    {
+        // Dynamically add geocoordinates with geocoding plugin, if available
+        if ($this->config->get('plugins.geocoding.enabled') &&
+            $data->get('address.street') &&
+            $data->get('address.postal_code') &&
+            $data->get('address.locality') &&
+            $data->get('address.region') &&
+            $data->get('address.country') &&
+            $data->get('geo') === null)
+        {
+            // Get geocoordinates using geocoding plugin
+            $query = $data->get('address.street') . ', ' .
+              $data->get('address.postal_code') . ', ' .
+              $data->get('address.locality') . ', ' .
+              $data->get('address.region');
+            $geo = $this->grav['geocoding']->getLocation($query, $data->get('address.country'));
+
+            // Set coordinates
+            if ($geo === null){
+                // TODO maybe we can show a message as error?
+                $this->grav['log']->error('Unable to add geolocation for structured data ' . $key . ': ' . $query);
+            }
+            else {
+                $data->set('geo.lat', $geo->lat);
+                $data->set('geo.lon', $geo->lon);
+            }
+        }
+    }
+
+    private function resolvePlaceGeoLocation(Data $data)
+    {
+        // Dynamically add geocoordinates with geocoding plugin, if available
+        if ($this->config->get('plugins.geocoding.enabled') &&
+            $data->get('name') &&
+            $data->get('geo') === null)
+        {
+            // Get geocoordinates using geocoding plugin
+            $query = $data->get('name');
+            $geo = $this->grav['geocoding']->getLocation($query);
+
+            // Set coordinates
+            if ($geo === null){
+                // TODO maybe we can show a message as error?
+                $this->grav['log']->error('Unable to add geolocation for structured data ' . $key . ': ' . $query);
+            }
+            else {
+                $data->set('geo.lat', $geo->lat);
+                $data->set('geo.lon', $geo->lon);
+            }
+        }
     }
 
     /**
