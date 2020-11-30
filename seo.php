@@ -86,7 +86,7 @@ class SeoPlugin extends Plugin
             $settings = new Data($config->get($key, []));
 
             // Dynamically add geocoordinates with geocoding plugin, if available
-            if (!$settings->get('resolve_geolocation', false)) {
+            if (!$settings->get('resolve_geolocation', $config->get('resolve_geolocation', false))) {
                 return;
             }
 
