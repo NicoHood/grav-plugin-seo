@@ -57,6 +57,7 @@ form:
         header.structured_data.local_business.email:
           type: text
           label: E-mail
+          placeholder: mail@test.com
           validate:
               type: email
         header.structured_data.local_business.url:
