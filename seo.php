@@ -129,8 +129,7 @@ class SeoPlugin extends Plugin
 
             // Set coordinates
             if ($geo === null){
-                // TODO maybe we can show a message as error?
-                $this->grav['log']->error('Unable to add geolocation for structured data ' . $key . ': ' . $query);
+                $this->grav['messages']->add('Unable to add geolocation for structured data local business: ' . $query, 'warning');
             }
             else {
                 $data->set('geo.lat', $geo->lat);
@@ -152,8 +151,7 @@ class SeoPlugin extends Plugin
 
             // Set coordinates
             if ($geo === null){
-                // TODO maybe we can show a message as error?
-                $this->grav['log']->error('Unable to add geolocation for structured data ' . $key . ': ' . $query);
+                $this->grav['messages']->add('Unable to add geolocation for structured data place: ' . $query, 'warning');
             }
             else {
                 $data->set('geo.lat', $geo->lat);
