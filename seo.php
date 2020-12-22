@@ -71,6 +71,12 @@ class SeoPlugin extends Plugin
     public function onAdminSave(Event $event)
     {
         $page = $event['object'];
+
+        // When saving plugin configurations we should ignore the event
+        if (!($page instanceof Page)) {
+            return;
+        }
+
         $config = $this->mergeConfig($page);
 
         // Check if seo plugin should be activated for this page
