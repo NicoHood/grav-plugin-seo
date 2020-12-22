@@ -1,0 +1,26 @@
+form:
+  fields:
+    section.place.general:
+      type: section
+      title: General Information
+      underline: true
+      fields:
+        header.structured_data.place.name:
+          type: text
+          label: Name
+          help: 'If not specified will be replaced by page title.'
+          placeholder: 'Pizza Restaurant'
+
+    section.place.geolocation:
+      type: section
+      title: GeoLocation
+      underline: true
+      fields:
+        header.structured_data.place.geo.lat:
+          type: text
+          label: 'Latitude (Autofilled, if enabled)'
+          placeholder: 52.520008
+        header.structured_data.place.geo.lon:
+          type: text
+          label: 'Longitude (Autofilled, if enabled)'
+          placeholder: 13.404954
