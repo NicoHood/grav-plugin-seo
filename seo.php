@@ -213,7 +213,7 @@ class SeoPlugin extends Plugin
 
                 # TODO use a proper microdata inlining option:
                 # https://github.com/getgrav/grav/issues/3042#issuecomment-731952118
-                $this->grav['assets']->addInlineJs($json_ld, ['type' => 'application/ld+json']);
+                $this->grav['assets']->addInlineJs($json_ld, ['type' => 'application/ld+json', 'position' => 'after']);
             }
         }
     }
