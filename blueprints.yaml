@@ -3,7 +3,7 @@ slug: seo
 type: plugin
 version: 3.0.0
 description: Adds structured data (e.g. json-ld or microdata) to your website for better seo (search engine optimization).
-icon: plug
+icon: google
 author:
   name: NicoHood
   email: grav@nicohood.de
