@@ -73,7 +73,7 @@ class SeoPlugin extends Plugin
         $page = $event['object'];
 
         // When saving plugin configurations we should ignore the event
-        if (!($page instanceof Page)) {
+        if (!($page instanceof \Grav\Common\Page\Page)) {
             return;
         }
 
