@@ -81,7 +81,7 @@ class SeoPlugin extends Plugin
         $page = $event['object'];
 
         // When saving plugin configurations we should ignore the event
-        if (!($page instanceof \Grav\Common\Page\Page)) {
+        if (!($page instanceof \Grav\Common\Page\Interfaces\PageInterface)) {
             return;
         }
 
@@ -92,7 +92,11 @@ class SeoPlugin extends Plugin
             return;
         }
 
-        $header = new Data((array)$page->header());
+        $header = $page->header();
+        if (!($header instanceof \Grav\Common\Page\Header)) {
+            $header = new Data((array)$header);
+        }
+
         $structured_data = $header->get('structured_data', []);
 
         foreach ($structured_data as $key => $data) {
