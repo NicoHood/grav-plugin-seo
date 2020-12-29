@@ -12,6 +12,14 @@ use RocketTheme\Toolbox\Event\Event;
  */
 class SeoPlugin extends Plugin
 {
+    /** @var array
+     *  Required for Grav 1.7 support:
+     *  https://learn.getgrav.org/16/advanced/grav-development/grav-17-upgrade-guide#blueprints
+     */
+    public $features = [
+        'blueprints' => 0, // Use priority 0
+    ];
+
     /**
      * @return array
      *
