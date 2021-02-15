@@ -136,7 +136,7 @@ class SeoPlugin extends Plugin
             $data->get('address.locality') &&
             $data->get('address.region') &&
             $data->get('address.country') &&
-            $data->get('geo') === null)
+            empty($data->get('geo')))
         {
             // Get geocoordinates using geocoding plugin
             $query = $data->get('address.street') . ', ' .
@@ -161,14 +161,14 @@ class SeoPlugin extends Plugin
         // Dynamically add geocoordinates with geocoding plugin, if available
         if ($this->config->get('plugins.geocoding.enabled') &&
             $data->get('name') &&
-            $data->get('geo') === null)
+            empty($data->get('geo')))
         {
             // Get geocoordinates using geocoding plugin
             $query = $data->get('name');
             $geo = $this->grav['geocoding']->getLocation($query);
 
             // Set coordinates
-            if ($geo === null){
+            if ($geo === null) {
                 $this->grav['messages']->add('Unable to add geolocation for structured data place: ' . $query, 'warning');
             }
             else {
